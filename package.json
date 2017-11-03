@@ -1,0 +1,22 @@
+{
+  "name": "console-twitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/ts-mocha ./src/test/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.47",
+    "mocha": "^4.0.1",
+    "ts-mocha": "^1.0.3",
+    "typescript": "^2.6.1"
+  }
+}
