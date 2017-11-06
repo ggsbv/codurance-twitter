@@ -1,19 +1,22 @@
 import { User } from "../User";
+import { Database } from "./Database";
 
-export class UserRepository {
-    repository: any = [];
+import * as find from "lodash.find";
 
-    constructor() {}
-
-    store(user: User) {
-        this.repository.push(user);
+export class UserRepository extends Database {
+    constructor() {
+        super();
     }
 
-    find(name: string): User {
-        return this.repository.find((user: User) => user.getName() === name);
+    store(user: User) {
+        this.db.push(user);
+    }
+
+    find(query: Object): User {
+        return find(this.db, (user) => user.name === query.name);
     }
 
     all(): Array<User> {
-        return this.repository;
+        return this.db;
     }
 }

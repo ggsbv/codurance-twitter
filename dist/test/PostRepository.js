@@ -11,21 +11,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Database_1 = require("./Database");
-var find = require("lodash.find");
-var UserRepository = /** @class */ (function (_super) {
-    __extends(UserRepository, _super);
-    function UserRepository() {
+var PostRepository = /** @class */ (function (_super) {
+    __extends(PostRepository, _super);
+    function PostRepository() {
         return _super.call(this) || this;
     }
-    UserRepository.prototype.store = function (user) {
-        this.db.push(user);
+    PostRepository.prototype.store = function (user, post) {
+        user.post(post);
     };
-    UserRepository.prototype.find = function (query) {
-        return find(this.db, function (user) { return user.name === query.name; });
-    };
-    UserRepository.prototype.all = function () {
-        return this.db;
-    };
-    return UserRepository;
+    return PostRepository;
 }(Database_1.Database));
-exports.UserRepository = UserRepository;
+exports.PostRepository = PostRepository;
