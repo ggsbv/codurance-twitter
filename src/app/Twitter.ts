@@ -1,8 +1,4 @@
-import { User } from "./User";
-import { Post } from "./Post";
 import { Command } from "./Command";
-import { Output } from "./Output";
-import * as moment from "moment";
 import { CommandController } from "./CommandController";
 import { RepositoriesInterface } from "./RepositoriesInterface";
 
