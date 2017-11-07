@@ -1,29 +1,22 @@
 import { CommandInterface } from "./CommandInterface";
 
 export class Command {
-    protected command: Array<string>;
+    protected subject: string;
+    protected verb: string | undefined;
+    protected object: string | undefined;
 
-    constructor(command: string) {
-        this.command = command.split(" ");
+    constructor(input: string) {
+        let input = input.split(" ");
+        this.subject = input[0];
+        this.verb = input[1];
+        this.object = input.slice(2).join(" ");
     }
 
-    interpret(): CommandInterface {
-        if (this.command[1] === "->") {
-            return {
-                type: 'post',
-                username: this.command[0],
-                verb: this.command[1],
-                text: this.command.slice(2).join(" ")
-            }
-        }
-
-        if (this.command[1] === 'follows') {
-            return {
-                type: 'follow',
-                username: this.command[0],
-                verb: this.command[1],
-                userToFollow: this.command[2]
-            }
+    asObject() {
+        return {
+            subject: this.subject,
+            verb: this.verb,
+            object: this.object
         }
     }
 }

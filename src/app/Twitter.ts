@@ -1,50 +1,35 @@
-import { UserRepository } from "../database/UserRepository";
 import { User } from "./User";
-import { PostRepository } from "../database/PostRepository";
 import { Post } from "./Post";
 import { Command } from "./Command";
 import { Output } from "./Output";
-
 import * as moment from "moment";
-
-interface RepositoryInterface {
-    forUser: UserRepository;
-    forPost: PostRepository;
-}
+import { CommandController } from "./CommandController";
+import { RepositoriesInterface } from "./RepositoriesInterface";
 
 export class Twitter {
-    protected userRepository: UserRepository;
-    protected postRepository: PostRepository;
+    protected commandController: CommandController;
 
-    constructor(repository: RepositoryInterface) {
-        this.userRepository = repository.forUser;
-        this.postRepository = repository.forPost;
+    constructor(repository: RepositoriesInterface) {
+        this.commandController = new CommandController(repository);
     }
 
     handleInput(input: string) {
-        let command = new Command(input).interpret();
-        
-        if (command.type === 'post') {
-            let user = this.userRepository.find({ name: command.username });
-            
-            if (! user) {
-                user = new User(command.username);
-                this.userRepository.store(user);
-            }
-            
-            this.postRepository.store(user, (new Post({ text: command.text, created_at: moment() })));
+        let command = new Command(input).asObject();
+
+        if (! command.verb) {
+            this.commandController.read(command);
         }
 
-        if (command.type === 'read') {
-            let posts = this.userRepository.find({ name: command.username }).getPosts();
-            new Output(posts).timeline();
+        if (command.verb === "->") {
+            this.commandController.post(command);
         }
 
-        if (command.type === 'follow') {
-            let user = this.userRepository.find({ name: command.username });
-            let userToFollow = this.userRepository.find({ name: command.userToFollow });
+        if (command.verb === "follows") {
+            this.commandController.follow(command);
+        }
 
-            user.follow(userToFollow);
+        if (command.verb === "wall") {
+            this.commandController.wall(command);
         }
     }
 }

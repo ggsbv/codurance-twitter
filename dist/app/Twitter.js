@@ -1,33 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var User_1 = require("./User");
-var Post_1 = require("./Post");
 var Command_1 = require("./Command");
-var Output_1 = require("./Output");
-var moment = require("moment");
+var CommandController_1 = require("./CommandController");
 var Twitter = /** @class */ (function () {
     function Twitter(repository) {
-        this.userRepository = repository.forUser;
-        this.postRepository = repository.forPost;
+        this.commandController = new CommandController_1.CommandController(repository);
     }
     Twitter.prototype.handleInput = function (input) {
-        var command = new Command_1.Command(input).interpret();
-        if (command.type === 'post') {
-            var user = this.userRepository.find({ name: command.username });
-            if (!user) {
-                user = new User_1.User(command.username);
-                this.userRepository.store(user);
-            }
-            this.postRepository.store(user, (new Post_1.Post({ text: command.text, created_at: moment() })));
+        var command = new Command_1.Command(input).asObject();
+        if (!command.verb) {
+            this.commandController.read(command);
         }
-        if (command.type === 'read') {
-            var posts = this.userRepository.find({ name: command.username }).getPosts();
-            new Output_1.Output(posts).timeline();
+        if (command.verb === "->") {
+            this.commandController.post(command);
         }
-        if (command.type === 'follow') {
-            var user = this.userRepository.find({ name: command.username });
-            var userToFollow = this.userRepository.find({ name: command.userToFollow });
-            user.follow(userToFollow);
+        if (command.verb === "follows") {
+            this.commandController.follow(command);
+        }
+        if (command.verb === "wall") {
+            this.commandController.wall(command);
         }
     };
     return Twitter;
