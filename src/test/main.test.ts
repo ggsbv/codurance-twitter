@@ -1,9 +1,8 @@
 import assert = require("assert");
+
 import { UserRepository } from "../database/UserRepository";
-import { Twitter } from "../app/Twitter";
-import { Post } from "../app/Post";
 import { PostRepository } from "../database/PostRepository";
-import { User } from "../app/User";
+import { Twitter } from "../app/Twitter";
 
 describe("The twitter application", () => {
     let userRepository = new UserRepository();
@@ -22,7 +21,7 @@ describe("The twitter application", () => {
         assert.deepEqual(userRepository.all().map(user => user.getName()), ["Andre", "Sandro"]);
     });
 
-    it("should create a new Post and add it to the User Object when the command user getName is followed by '->' and some text",
+    it("should create a new Post and add it to the User Object when the command username is followed by '->' and some text",
         () => {
             assert.equal(userRepository.find({ name: 'Andre' }).getPosts()[0].getText(),
                 "Today is a great day!");
@@ -36,9 +35,14 @@ describe("The twitter application", () => {
             ]);
         });
 
-    it("should read the user's timeline when the input consists of solely a user name", () => {
+    it(`should add a user to the User class's 'following' list when the command is a username 
+    followed by the word 'follow'`, () => {
+        twitter.handleInput("Charne -> Can't wait for the weekend!");
+        twitter.handleInput("Andre follows Charne");
+        twitter.handleInput("Andre follows Sandro");
 
-        console.log(userRepository.find({ name: "Sandro" }).getPosts());
-        // assert.equal(userRepository.find({ name: "Sandro" }).timeline(), )
+        assert.deepEqual(userRepository.find({ name: "Andre" }).getFollows().map(user => user.getName()), [
+            "Charne", "Sandro"
+        ])
     })
 });

@@ -13,6 +13,14 @@ var Command = /** @class */ (function () {
                 text: this.command.slice(2).join(" ")
             };
         }
+        if (this.command[1] === 'follows') {
+            return {
+                type: 'follow',
+                username: this.command[0],
+                verb: this.command[1],
+                userToFollow: this.command[2]
+            };
+        }
     };
     return Command;
 }());

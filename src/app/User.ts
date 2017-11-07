@@ -3,10 +3,12 @@ import { Post } from "./Post";
 export class User {
     name: string;
     posts: Array<Post>;
+    follows: Array<User>;
 
     constructor(name: string) {
         this.name = name;
         this.posts = [];
+        this.follows = [];
     }
 
     getName() {
@@ -19,7 +21,15 @@ export class User {
         }
     }
 
+    getFollows() {
+        return this.follows;
+    }
+
     post(post: Post) {
         this.posts.push(post);
+    }
+
+    follow(user: User) {
+        this.follows.push(user);
     }
 }

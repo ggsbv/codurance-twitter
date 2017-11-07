@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var UserRepository_1 = require("../database/UserRepository");
-var Twitter_1 = require("../app/Twitter");
 var PostRepository_1 = require("../database/PostRepository");
+var Twitter_1 = require("../app/Twitter");
 describe("The twitter application", function () {
     var userRepository = new UserRepository_1.UserRepository();
     var postRepository = new PostRepository_1.PostRepository();
@@ -17,7 +17,7 @@ describe("The twitter application", function () {
     it("should create and store a new User when the user posts for the first time", function () {
         assert.deepEqual(userRepository.all().map(function (user) { return user.getName(); }), ["Andre", "Sandro"]);
     });
-    it("should create a new Post and add it to the User Object when the command user getName is followed by '->' and some text", function () {
+    it("should create a new Post and add it to the User Object when the command username is followed by '->' and some text", function () {
         assert.equal(userRepository.find({ name: 'Andre' }).getPosts()[0].getText(), "Today is a great day!");
         var posts = userRepository.find({ name: 'Sandro' }).getPosts()
             .map(function (post) { return post.getText(); });
@@ -26,8 +26,12 @@ describe("The twitter application", function () {
             "Not all movies are crap, though. Just sayin."
         ]);
     });
-    it("should read the user's timeline when the input consists of solely a user name", function () {
-        console.log(userRepository.find({ name: "Sandro" }).getPosts());
-        // assert.equal(userRepository.find({ name: "Sandro" }).timeline(), )
+    it("should add a user to the User class's 'following' list when the command is a username \n    followed by the word 'follow'", function () {
+        twitter.handleInput("Charne -> Can't wait for the weekend!");
+        twitter.handleInput("Andre follows Charne");
+        twitter.handleInput("Andre follows Sandro");
+        assert.deepEqual(userRepository.find({ name: "Andre" }).getFollows().map(function (user) { return user.getName(); }), [
+            "Charne", "Sandro"
+        ]);
     });
 });

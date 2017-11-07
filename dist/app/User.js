@@ -4,6 +4,7 @@ var User = /** @class */ (function () {
     function User(name) {
         this.name = name;
         this.posts = [];
+        this.follows = [];
     }
     User.prototype.getName = function () {
         return this.name;
@@ -14,8 +15,14 @@ var User = /** @class */ (function () {
             return this.posts.sort(function (a, b) { return b.getDate().diff(a.getDate()); });
         }
     };
+    User.prototype.getFollows = function () {
+        return this.follows;
+    };
     User.prototype.post = function (post) {
         this.posts.push(post);
+    };
+    User.prototype.follow = function (user) {
+        this.follows.push(user);
     };
     return User;
 }());

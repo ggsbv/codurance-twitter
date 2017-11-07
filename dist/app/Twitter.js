@@ -24,6 +24,11 @@ var Twitter = /** @class */ (function () {
             var posts = this.userRepository.find({ name: command.username }).getPosts();
             new Output_1.Output(posts).timeline();
         }
+        if (command.type === 'follow') {
+            var user = this.userRepository.find({ name: command.username });
+            var userToFollow = this.userRepository.find({ name: command.userToFollow });
+            user.follow(userToFollow);
+        }
     };
     return Twitter;
 }());

@@ -36,10 +36,15 @@ export class Twitter {
         }
 
         if (command.type === 'read') {
-
             let posts = this.userRepository.find({ name: command.username }).getPosts();
             new Output(posts).timeline();
+        }
 
+        if (command.type === 'follow') {
+            let user = this.userRepository.find({ name: command.username });
+            let userToFollow = this.userRepository.find({ name: command.userToFollow });
+
+            user.follow(userToFollow);
         }
     }
 }
