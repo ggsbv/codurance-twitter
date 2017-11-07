@@ -12,20 +12,18 @@ export class Twitter {
     handleInput(input: string) {
         let command = new Command(input).asObject();
 
-        if (! command.verb) {
-            this.commandController.read(command);
-        }
-
-        if (command.verb === "->") {
-            this.commandController.post(command);
-        }
-
-        if (command.verb === "follows") {
-            this.commandController.follow(command);
-        }
-
-        if (command.verb === "wall") {
-            this.commandController.wall(command);
+        switch (command.verb) {
+            case "->":
+                this.commandController.post(command);
+                break;
+            case "follows":
+                this.commandController.follow(command);
+                break;
+            case "wall":
+                this.commandController.wall(command);
+                break;
+            default:
+                this.commandController.read(command);
         }
     }
 }
