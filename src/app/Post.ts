@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import { User } from "./User";
 
 interface PostInterface {
     text: string;
@@ -8,6 +9,7 @@ interface PostInterface {
 export class Post {
     text: string;
     created_at: moment;
+    owner: User;
 
     constructor(post: PostInterface) {
         this.text = post.text;
@@ -20,5 +22,13 @@ export class Post {
 
     getDate(): moment {
         return this.created_at;
+    }
+
+    ownedBy(user: User) {
+        this.owner = user;
+    }
+
+    getOwner(): User {
+        return this.owner;
     }
 }

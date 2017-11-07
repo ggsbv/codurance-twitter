@@ -8,6 +8,7 @@ export class PostRepository extends Database {
     }
 
     store(user: User, post: Post) {
+        post.ownedBy(user);
         user.post(post);
     }
 }

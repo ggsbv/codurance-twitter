@@ -17,6 +17,7 @@ var PostRepository = /** @class */ (function (_super) {
         return _super.call(this) || this;
     }
     PostRepository.prototype.store = function (user, post) {
+        post.ownedBy(user);
         user.post(post);
     };
     return PostRepository;

@@ -1,12 +1,13 @@
 import { Command } from "./Command";
 import { CommandController } from "./CommandController";
 import { RepositoriesInterface } from "./RepositoriesInterface";
+import { Output } from "./Output";
 
 export class Twitter {
     protected commandController: CommandController;
 
     constructor(repository: RepositoriesInterface) {
-        this.commandController = new CommandController(repository);
+        this.commandController = new CommandController(repository, new Output());
     }
 
     handleInput(input: string) {

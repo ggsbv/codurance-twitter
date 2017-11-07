@@ -1,18 +1,23 @@
 import { RepositoriesInterface } from "./RepositoriesInterface";
+import { PostRepository } from "../database/PostRepository";
+import { UserRepository } from "../database/UserRepository";
 
 import { User } from "./User";
 import { Post } from "./Post";
+
 import { Output } from "./Output";
 
 import moment = require("moment");
 
 export class CommandController {
-    protected userRepository;
-    protected postRepository;
+    protected userRepository: UserRepository;
+    protected postRepository: PostRepository;
+    protected output: Output;
 
-    constructor(repository: RepositoriesInterface) {
+    constructor(repository: RepositoriesInterface, output: Output) {
         this.userRepository = repository.forUser;
         this.postRepository = repository.forPost;
+        this.output = output;
     }
 
     post(command): void {
@@ -28,7 +33,7 @@ export class CommandController {
 
     read(command): void {
         let posts = this.userRepository.find({ name: command.subject }).getPosts();
-        new Output(posts).timeline();
+        output.timeline(posts);
     }
 
     follow(command): void {
@@ -36,5 +41,10 @@ export class CommandController {
         let userToFollow = this.userRepository.find({ name: command.object });
 
         user.follow(userToFollow);
+    }
+
+    wall(command): void {
+        let wall = this.userRepository.find({ name: command.subject }).wall();
+        output.wall(wall);
     }
 }

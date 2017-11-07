@@ -44,5 +44,11 @@ describe("The twitter application", () => {
         assert.deepEqual(userRepository.find({ name: "Andre" }).getFollows().map(user => user.getName()), [
             "Charne", "Sandro"
         ])
+    });
+
+    it(`should display the user's wall when the input command is a username followed by the word 'wall'`, () => {
+        // twitter.handleInput("Andre wall");
+
+        // assert.deepEqual()
     })
 });

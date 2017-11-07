@@ -1,4 +1,5 @@
 import { Post } from "./Post";
+import flattenDeep = require("lodash.flattendeep");
 
 export class User {
     name: string;
@@ -31,5 +32,11 @@ export class User {
 
     follow(user: User) {
         this.follows.push(user);
+    }
+
+    wall() {
+        return flattenDeep(this.follows.map(user => user.getPosts())
+            .concat(this.posts))
+            .sort((a, b) => b.getDate().diff(a.getDate()));
     }
 }

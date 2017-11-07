@@ -34,4 +34,8 @@ describe("The twitter application", function () {
             "Charne", "Sandro"
         ]);
     });
+    it("should display the user's wall when the input command is a username followed by the word 'wall'", function () {
+        // twitter.handleInput("Andre wall");
+        // assert.deepEqual()
+    });
 });

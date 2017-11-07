@@ -11,6 +11,12 @@ var Post = /** @class */ (function () {
     Post.prototype.getDate = function () {
         return this.created_at;
     };
+    Post.prototype.ownedBy = function (user) {
+        this.owner = user;
+    };
+    Post.prototype.getOwner = function () {
+        return this.owner;
+    };
     return Post;
 }());
 exports.Post = Post;

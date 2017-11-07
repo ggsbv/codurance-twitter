@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var User_1 = require("./User");
 var Post_1 = require("./Post");
-var Output_1 = require("./Output");
 var moment = require("moment");
 var CommandController = /** @class */ (function () {
-    function CommandController(repository) {
+    function CommandController(repository, output) {
         this.userRepository = repository.forUser;
         this.postRepository = repository.forPost;
+        this.output = output;
     }
     CommandController.prototype.post = function (command) {
         var user = this.userRepository.find({ name: command.subject });
@@ -19,12 +19,16 @@ var CommandController = /** @class */ (function () {
     };
     CommandController.prototype.read = function (command) {
         var posts = this.userRepository.find({ name: command.subject }).getPosts();
-        new Output_1.Output(posts).timeline();
+        output.timeline(posts);
     };
     CommandController.prototype.follow = function (command) {
         var user = this.userRepository.find({ name: command.subject });
         var userToFollow = this.userRepository.find({ name: command.object });
         user.follow(userToFollow);
+    };
+    CommandController.prototype.wall = function (command) {
+        var wall = this.userRepository.find({ name: command.subject }).wall();
+        output.wall(wall);
     };
     return CommandController;
 }());

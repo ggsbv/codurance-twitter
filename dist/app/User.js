@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var flattenDeep = require("lodash.flattendeep");
 var User = /** @class */ (function () {
     function User(name) {
         this.name = name;
@@ -23,6 +24,11 @@ var User = /** @class */ (function () {
     };
     User.prototype.follow = function (user) {
         this.follows.push(user);
+    };
+    User.prototype.wall = function () {
+        return flattenDeep(this.follows.map(function (user) { return user.getPosts(); })
+            .concat(this.posts))
+            .sort(function (a, b) { return b.getDate().diff(a.getDate()); });
     };
     return User;
 }());
