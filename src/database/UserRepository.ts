@@ -1,7 +1,7 @@
 import { User } from "../User";
 import { Database } from "./Database";
 
-import * as find from "lodash.find";
+import find = require("lodash.find");
 
 export class UserRepository extends Database {
     constructor() {
@@ -12,7 +12,7 @@ export class UserRepository extends Database {
         this.db.push(user);
     }
 
-    find(query: Object): User {
+    find(query: Object): User | undefined {
         return find(this.db, (user) => user.name === query.name);
     }
 

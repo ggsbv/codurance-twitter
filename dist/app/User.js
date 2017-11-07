@@ -8,8 +8,11 @@ var User = /** @class */ (function () {
     User.prototype.getName = function () {
         return this.name;
     };
-    User.prototype.getPosts = function () {
-        return this.posts;
+    User.prototype.getPosts = function (sortingOption) {
+        if (sortingOption === void 0) { sortingOption = "ascending"; }
+        if (sortingOption === "ascending") {
+            return this.posts.sort(function (a, b) { return b.getDate().diff(a.getDate()); });
+        }
     };
     User.prototype.post = function (post) {
         this.posts.push(post);

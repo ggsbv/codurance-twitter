@@ -1,4 +1,4 @@
-import { Post } from "./test/Post";
+import { Post } from "./Post";
 
 export class User {
     name: string;
@@ -13,8 +13,10 @@ export class User {
         return this.name;
     }
 
-    getPosts() {
-        return this.posts;
+    getPosts(sortingOption: string = "ascending") {
+        if (sortingOption === "ascending") {
+            return this.posts.sort((a, b) => b.getDate().diff(a.getDate()));
+        }
     }
 
     post(post: Post) {

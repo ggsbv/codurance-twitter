@@ -1,6 +1,6 @@
 import { Database } from "./Database";
-import { Post } from "./Post";
-import { User } from "../User";
+import { Post } from "../app/Post";
+import { User } from "../app/User";
 
 export class PostRepository extends Database {
     constructor() {
